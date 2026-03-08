@@ -1,31 +1,858 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Intentional Dinner</title>
-  <meta name="description" content="A simple, intentional guide to hosting a dinner that raises money for the work you believe in.">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root{--warm-cream:#FAF6F0;--deep-oak:#3D2B1F;--rust:#B5543B;--soft-rust:#D4836B;--sage:#7A8B6F}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Source Sans 3',sans-serif;background:var(--warm-cream);color:var(--deep-oak);line-height:1.6;-webkit-font-smoothing:antialiased}
-    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative}
-    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(181,84,59,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 30%,rgba(122,139,111,.06) 0%,transparent 50%);z-index:0}
-    .hero-content{position:relative;z-index:1;max-width:640px}
-    h1{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(2.6rem,7vw,4.5rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:1.5rem}
-    h1 em{font-style:italic;font-weight:400;color:var(--rust)}
-    .subtitle{font-size:1.15rem;font-weight:300;color:var(--soft-rust);max-width:440px;margin:0 auto 2.5rem;line-height:1.7}
-    .coming-soon{display:inline-block;font-size:.8rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--sage);border:1px solid var(--sage);border-radius:2rem;padding:.5rem 1.5rem}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Host a Dinner</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=Space+Mono:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F1724;
+    --navy-mid: #182236;
+    --navy-surface: #1F2B42;
+    --green: #1B6B4A;
+    --green-bg: #174D38;
+    --green-light: #6BC4A0;
+    --green-accent: #4CA882;
+    --coral: #D95550;
+    --coral-bg: #7A2A27;
+    --coral-light: #F2A09E;
+    --orange: #D4913A;
+    --orange-bg: #8B5E23;
+    --teal-bg: #163D48;
+    --teal-light: #7DD4C0;
+    --purple-bg: #2A2636;
+    --purple-light: #C4A8F0;
+    --blue-bg: #1A2F5C;
+    --blue-light: #8BB4E8;
+    --warm: #F5E6D3;
+    --warm-dark: #E8D5BF;
+    --white: #FFFFFF;
+    --off-white: #F3F4F6;
+    --border: #DDE1E6;
+    --text: #1A1D23;
+    --text-mid: #505662;
+    --text-light: #7C8494;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sec { padding: 72px 40px; }
+  .sec-inner { max-width: 860px; margin: 0 auto; }
+
+  /* Color themes */
+  .t-navy { background: var(--navy); color: #F2F4F7; }
+  .t-navy-mid { background: var(--navy-mid); color: #F2F4F7; }
+  .t-white { background: var(--white); color: var(--text); }
+  .t-off-white { background: var(--off-white); color: var(--text); }
+  .t-teal { background: var(--teal-bg); color: #F2F4F7; }
+  .t-purple { background: var(--purple-bg); color: #F2F4F7; }
+  .t-blue { background: var(--blue-bg); color: #F2F4F7; }
+  .t-warm { background: var(--warm); color: var(--text); }
+
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .step-num::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    display: block;
+  }
+
+  .t-white .step-num, .t-off-white .step-num, .t-warm .step-num { color: var(--green-accent); }
+  .t-white .step-num::before, .t-off-white .step-num::before, .t-warm .step-num::before { background: var(--green-accent); }
+  .t-navy .step-num, .t-navy-mid .step-num { color: var(--green-light); }
+  .t-navy .step-num::before, .t-navy-mid .step-num::before { background: var(--green-light); }
+  .t-teal .step-num { color: var(--teal-light); }
+  .t-teal .step-num::before { background: var(--teal-light); }
+  .t-purple .step-num { color: var(--purple-light); }
+  .t-purple .step-num::before { background: var(--purple-light); }
+  .t-blue .step-num { color: var(--blue-light); }
+  .t-blue .step-num::before { background: var(--blue-light); }
+
+  h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .t-navy h2, .t-navy-mid h2 { color: var(--white); }
+  .t-teal h2 { color: var(--white); }
+  .t-purple h2 { color: var(--white); }
+  .t-blue h2 { color: var(--white); }
+  .t-white h2, .t-off-white h2 { color: var(--text); }
+  .t-warm h2 { color: var(--text); }
+
+  h2 em {
+    font-style: normal;
+    color: var(--green-light);
+  }
+
+  .t-white h2 em, .t-off-white h2 em, .t-warm h2 em { color: var(--green-accent); }
+  .t-teal h2 em { color: var(--teal-light); }
+  .t-purple h2 em { color: var(--purple-light); }
+  .t-blue h2 em { color: var(--blue-light); }
+
+  p { margin-bottom: 16px; line-height: 1.75; }
+
+  /* ===== HERO ===== */
+  .hero { background: var(--navy); color: var(--white); padding: 100px 40px 80px; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+
+  .hero h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(42px, 7vw, 68px);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 36px;
+    letter-spacing: -1px;
+    color: var(--white);
+  }
+
+  .hero h1 span { color: var(--green-light); }
+
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #E8EDF4;
+    max-width: 560px;
+    margin-bottom: 40px;
+  }
+
+  .hero-body { max-width: 660px; font-size: 19px; line-height: 1.8; color: #EEF0F4; }
+  .hero-body p { margin-bottom: 16px; }
+  .hero-body strong { color: var(--white); font-weight: 500; }
+
+  /* ===== TOC ===== */
+  .toc { background: var(--navy-mid); padding: 40px; }
+  .toc-inner { max-width: 860px; margin: 0 auto; }
+
+  .toc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 20px;
+  }
+
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .toc-item {
+    display: block;
+    padding: 14px 18px;
+    background: var(--navy-surface);
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.15s;
+  }
+
+  .toc-item:hover { border-color: var(--green-accent); }
+  .toc-item .toc-num { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--green-light); margin-bottom: 2px; }
+  .toc-item .toc-title { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.3; }
+
+  .toc-checklist {
+    display: block;
+    margin-top: 10px;
+    padding: 14px 18px;
+    background: transparent;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 2px dotted rgba(255,255,255,0.2);
+    transition: all 0.15s;
+  }
+
+  .toc-checklist:hover { border-color: var(--green-accent); }
+  .toc-checklist .toc-num { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--green-light); margin-bottom: 2px; }
+  .toc-checklist .toc-title { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.3; }
+
+  /* ===== SCRIPT BLOCK ===== */
+  .script-block {
+    background: var(--navy);
+    padding: 40px;
+    border-radius: 6px;
+    margin: 24px 0;
+    border-left: 4px solid var(--green-accent);
+  }
+
+  .t-navy .script-block { background: var(--navy-surface); }
+
+  .script-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--green-light);
+    margin-bottom: 16px;
+  }
+
+  .script-block p {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #F0F2F5;
+    margin-bottom: 12px;
+  }
+
+  .script-block p:last-child { margin-bottom: 0; }
+
+  /* ===== NOTE BLOCK ===== */
+  .note-block {
+    border-left: 4px solid var(--orange);
+    padding: 20px 24px;
+    border-radius: 4px;
+    margin: 20px 0;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .t-white .note-block, .t-off-white .note-block, .t-warm .note-block { background: var(--off-white); border: 1px solid var(--border); border-left: 4px solid var(--orange); color: var(--text-mid); }
+  .t-navy .note-block { background: var(--navy-surface); color: #F2F4F7; }
+
+  .note-block strong { font-weight: 700; }
+
+  /* ===== ICON ROW ===== */
+  .icon-row { display: grid; grid-template-columns: 48px 1fr; gap: 18px; align-items: start; margin-bottom: 24px; }
+  .icon-row:last-child { margin-bottom: 0; }
+
+  .icon-circle {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+
+  .t-white .icon-circle, .t-off-white .icon-circle, .t-warm .icon-circle { background: var(--off-white); border: 2px solid var(--border); }
+  .t-navy .icon-circle { background: var(--navy-surface); border: 2px solid rgba(255,255,255,0.08); }
+  .t-teal .icon-circle, .t-purple .icon-circle, .t-blue .icon-circle { background: rgba(0,0,0,0.15); border: 2px solid rgba(255,255,255,0.1); }
+
+  .icon-row h4 { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .icon-row p { margin-bottom: 0; font-size: 16px; line-height: 1.65; }
+
+  /* ===== THIRDS ===== */
+  .thirds-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 20px 0; }
+
+  .third-card { padding: 24px; border-radius: 4px; border-top: 4px solid var(--green-accent); }
+  .t-white .third-card, .t-off-white .third-card { background: var(--off-white); border: 1px solid var(--border); border-top: 4px solid var(--green-accent); }
+  .t-warm .third-card { background: var(--white); border: 1px solid var(--warm-dark); border-top: 4px solid var(--green-accent); }
+
+  .third-card .fraction { font-family: 'Space Mono', monospace; font-size: 26px; font-weight: 700; color: var(--green-accent); margin-bottom: 6px; }
+  .third-card h4 { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .third-card p { font-size: 14px; line-height: 1.6; color: var(--text-mid); margin-bottom: 0; }
+
+  /* ===== QUESTION OPTIONS ===== */
+  .q-option { padding: 24px 28px; margin-bottom: 12px; border-radius: 4px; border-left: 5px solid var(--coral); }
+  .t-navy .q-option, .t-teal .q-option, .t-purple .q-option, .t-blue .q-option { background: rgba(0,0,0,0.2); }
+  .t-white .q-option, .t-off-white .q-option { background: var(--off-white); border: 1px solid var(--border); border-left: 5px solid var(--coral); }
+
+  .q-text { font-family: 'Libre Baskerville', serif; font-size: 17px; line-height: 1.65; font-style: italic; }
+  .t-navy .q-text, .t-teal .q-text, .t-purple .q-text, .t-blue .q-text { color: #F0F2F5; }
+
+  .q-sub { font-family: 'Libre Baskerville', serif; font-size: 15px; line-height: 1.6; font-style: italic; margin-top: 8px; opacity: 0.7; }
+  .q-note { font-size: 13px; margin-top: 6px; margin-bottom: 0; opacity: 0.6; }
+
+  /* ===== BLUEPRINT ===== */
+  .blueprint { background: var(--navy); border-radius: 8px; padding: 48px 32px 40px; margin: 32px 0; }
+  .t-navy .blueprint { background: var(--navy-surface); }
+  .blueprint-label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--green-light); text-align: center; margin-bottom: 24px; }
+  .blueprint svg { display: block; margin: 0 auto; width: 100%; max-width: 580px; height: auto; }
+
+  .blueprint-callouts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+  .callout { padding: 16px 20px; background: rgba(255,255,255,0.03); border-radius: 4px; border-left: 3px solid var(--green-accent); }
+
+  .callout h5 { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green-light); margin-bottom: 6px; }
+  .callout p { font-size: 15px; line-height: 1.6; color: #FFFFFF; margin-bottom: 0; }
+
+  /* ===== TIMELINE ===== */
+  .timeline { margin: 28px 0; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 20px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-time { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px; color: var(--green-light); padding-top: 4px; }
+  .tl-content h4 { font-weight: 700; font-size: 17px; color: var(--white); margin-bottom: 6px; }
+  .tl-content p { font-size: 16px; line-height: 1.65; color: #F2F4F7; margin-bottom: 0; }
+
+  /* ===== EMAIL ===== */
+  .email-block { background: var(--white); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin: 24px 0; }
+  .email-header { padding: 14px 28px; background: var(--navy); font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--green-light); }
+  .email-body { padding: 28px; font-size: 16px; line-height: 1.8; color: var(--text); }
+  .email-body p { margin-bottom: 12px; }
+  .ph { color: #C0392B; font-weight: 700; background: #FDF2F2; padding: 1px 4px; border-radius: 2px; }
+
+  .copy-btn {
+    display: inline-block; margin-top: 12px; padding: 12px 28px;
+    background: var(--green-accent); color: var(--white);
+    font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s;
+  }
+  .copy-btn:hover { background: var(--green); }
+  .copy-btn.copied { background: var(--orange); }
+
+  /* ===== CHECKLIST ===== */
+  .checklist { margin: 24px 0; }
+  .cl-group { margin-bottom: 28px; }
+  .cl-group h4 { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green-accent); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--green-accent); }
+  .cl-item { display: grid; grid-template-columns: 24px 1fr; gap: 12px; padding: 6px 0; align-items: start; }
+  .cl-box { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 3px; margin-top: 2px; }
+  .cl-item p { font-size: 15px; line-height: 1.5; color: var(--text-mid); margin-bottom: 0; }
+
+  /* ===== FOOTER ===== */
+  .footer { background: var(--navy); padding: 48px 40px; text-align: center; }
+  .footer p { font-size: 13px; color: var(--text-light); line-height: 1.7; }
+  .footer a { color: var(--green-light); text-decoration: none; }
+
+  @media (max-width: 700px) {
+    .hero { padding: 72px 24px 56px; }
+    .toc { padding: 28px 24px; }
+    .sec { padding: 48px 24px; }
+    .thirds-grid { grid-template-columns: 1fr; }
+    .blueprint { padding: 32px 20px; }
+    .blueprint-callouts { grid-template-columns: 1fr; }
+    .tl-item { grid-template-columns: 64px 1fr; gap: 12px; }
+    .script-block { padding: 28px 24px; }
+    .email-body { padding: 20px; }
+    .footer { padding: 32px 24px; }
+  }
+</style>
 </head>
 <body>
-  <div class="hero">
-    <div class="hero-content">
-      <h1>The <em>Intentional</em> Dinner</h1>
-      <p class="subtitle">A simple guide to hosting a dinner that raises money for the work you believe in.</p>
-      <span class="coming-soon">Coming Soon</span>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Host a dinner,<br><span>Fund the work.</span></h1>
+    <p class="hero-sub">A guide to gathering the people you care about, deepening your shared commitment, and raising money for the work that matters most.</p>
+    <div class="hero-body">
+      <p>Meeting this moment requires many things from all of us. Leadership. Courage. Time. Connection. Shared risk. And funding — directed to the people and work that need it most.</p>
+      <p>The single most effective way for you to help pull those resources together is to <strong>host an intentional dinner</strong>. This model comes from professional fundraising. It turns an awkward, forced pitch into a meaningful evening of connection and shared experience.</p>
+      <p>Intentional dinners deepen your connection to each other, strengthen your commitment to the work, and begin to gather the resources required to make it all happen. Funding is an outcome of the dinner, not the focus.</p>
+      <p>This website is a streamlined, step-by-step guide on how to pull one together. Your activism, your relationships, and a couple of friends willing to help — that's all it takes. If you have the opportunity to host an intentional dinner, seize it. It will be meaningful for the people involved, help build your community, and make a real difference for the people who benefit from the resources you raise.</p>
     </div>
   </div>
+</div>
+
+<!-- ===== TOC ===== -->
+<div class="toc">
+  <div class="toc-inner">
+    <div class="toc-label">What's in this guide</div>
+    <div class="toc-grid">
+      <a class="toc-item" href="#space"><div class="toc-num">01</div><div class="toc-title">Choose your space</div></a>
+      <a class="toc-item" href="#meal"><div class="toc-num">02</div><div class="toc-title">Plan the meal</div></a>
+      <a class="toc-item" href="#question"><div class="toc-num">03</div><div class="toc-title">Choose the opening question</div></a>
+      <a class="toc-item" href="#guests"><div class="toc-num">04</div><div class="toc-title">Invite your guests</div></a>
+      <a class="toc-item" href="#table"><div class="toc-num">05</div><div class="toc-title">Design the table</div></a>
+      <a class="toc-item" href="#invite"><div class="toc-num">06</div><div class="toc-title">Send the invite</div></a>
+      <a class="toc-item" href="#brief"><div class="toc-num">07</div><div class="toc-title">Brief your people</div></a>
+      <a class="toc-item" href="#run"><div class="toc-num">08</div><div class="toc-title">Run the evening</div></a>
+      <a class="toc-item" href="#followup"><div class="toc-num">09</div><div class="toc-title">Follow up with everyone</div></a>
+      <a class="toc-item" href="#checklist" style="border-style: dotted;"><div class="toc-num">✓</div><div class="toc-title">Implementation checklist</div></a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 01 CHOOSE YOUR SPACE (white) ===== -->
+<div class="sec t-white" id="space">
+  <div class="sec-inner">
+    <div class="step-num">Step 01</div>
+    <h2>Choose your <em>space</em></h2>
+    <p>Everyone should be gathering around one table. The idea is to have a single conversation that creates a bond between everyone in the room — not parallel conversations happening in clusters. Everything about the space should support that objective.</p>
+    <p>The person sitting at one end of the table should be able to hear, see, and pay attention to the stories being told from the other end. That means a quiet space with no background noise. If it's a restaurant, book a private room. If it's a home, turn the TV off. No music — ever. People hear at different levels and the stories being shared need everyone's full attention.</p>
+    <p>The space itself should match the community you're gathering. A kitchen table. A church hall. A back room at a restaurant. A backyard. Whatever fits the people and the place.</p>
+  </div>
+</div>
+
+<!-- ===== 02 PLAN THE MEAL (green) ===== -->
+<div class="sec t-teal" id="meal">
+  <div class="sec-inner">
+    <div class="step-num">Step 02</div>
+    <h2>Plan the <em>meal</em></h2>
+    <p>The focus of the evening is the conversation, not the food. You don't want interruptions for service, for dishes being cleared, for waiting on a course to finish. You want the food to arrive quickly and quietly so it moves seamlessly in the background. It shouldn't break the flow of conversation or the emotional connections being built around the table.</p>
+    <p>Family style works best. Everything on the table before people sit down, or arriving all at once the moment they do. No courses. No menus. No flagging servers.</p>
+    <p>Have dessert ready to bring out separately. You'll serve it after you make the ask to the table — it marks the shift from the formal conversation into the looser, more personal part of the evening.</p>
+  </div>
+</div>
+
+<!-- ===== 03 CHOOSE THE OPENING QUESTION (navy) ===== -->
+<div class="sec t-navy" id="question">
+  <div class="sec-inner">
+    <div class="step-num">Step 03</div>
+    <h2>Choose the <em>opening question</em></h2>
+    <p>At the start of the evening, you're going to ask the table a single question. Everyone answers, one at a time, for about two minutes each. This is the most important part of the dinner.</p>
+    <p>The question has a specific job. It asks each person to share something personal about why they care — not a take, not an opinion, but a real story from their life. As people answer, something happens: the first few stories stand on their own, but by the fourth or fifth, people start hearing echoes of what came before. They start to see what they share. Without anyone forcing it, the room moves from a collection of individuals to a group that recognizes itself as connected — people with a shared purpose and a reason to act together.</p>
+    <p>That shift is what makes the rest of the evening work. The conversation that follows is richer because people already feel bound to each other. The ask that comes later feels natural because the room has already discovered, on its own, that it cares about the same things.</p>
+    <p>A good opening question is grounded in lived experience, not theory. It should invite honesty, not performance. It should be something that everyone at the table — regardless of their background — can answer from the heart.</p>
+    <p>Choose one of these, or write your own using the same approach.</p>
+
+    <div style="margin-top: 24px;">
+      <div class="q-option">
+        <div class="q-text">"There's a lot going on in all our lives right now. Work, family, the weight of everything happening around us. You could be anywhere tonight. Why did you want to come this evening?"</div>
+        <p class="q-note">Works in any room. Gets to the core of why people showed up.</p>
+      </div>
+      <div class="q-option">
+        <div class="q-text">"What is it about this place — this neighborhood, this community — that makes you believe it's worth fighting for? How is that at risk?"</div>
+        <p class="q-note">Works when the room shares a geography.</p>
+      </div>
+      <div class="q-option">
+        <div class="q-text">"What's something you saw recently — someone helping someone else, people stepping up when it mattered — that made you want to do more?"</div>
+        <p class="q-note">Grounds the room in a recent moment of mutual care.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 04 INVITE YOUR GUESTS (warm) ===== -->
+<div class="sec t-warm" id="guests">
+  <div class="sec-inner">
+    <div class="step-num">Step 04</div>
+    <h2>Invite your <em>guests</em></h2>
+    <p>The ideal number is 10. Anything fewer than 8 makes the evening feel less significant and reduces the chances people will meet someone new. Anything more than 12 risks making things take too long and the conversation in the room lose its shared connection and intimacy.</p>
+    <p>Build the table in thirds.</p>
+
+    <div class="thirds-grid">
+      <div class="third-card">
+        <div class="fraction">⅓</div>
+        <h4>Close friends already in it</h4>
+        <p>Your people. They know the work, they're already committed, and they're the ones helping you make sure the evening works.</p>
+      </div>
+      <div class="third-card">
+        <div class="fraction">⅓</div>
+        <h4>Looser connections</h4>
+        <p>Folks you know who want to do more but haven't started yet. They care, they're open — they just haven't had the opportunity or the invitation.</p>
+      </div>
+      <div class="third-card">
+        <div class="fraction">⅓</div>
+        <h4>New</h4>
+        <p>People new to you, new to the community, or new to the work. They're curious. This is your chance to grow participation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 05 DESIGN THE TABLE (navy) ===== -->
+<div class="sec t-navy" id="table">
+  <div class="sec-inner">
+    <div class="step-num">Step 05</div>
+    <h2>Design the <em>table</em></h2>
+    <p>Everyone sits around one table. In addition to the guests you're inviting, there are a few people in key roles helping you make the evening work.</p>
+
+    <div class="blueprint">
+      <div class="blueprint-label">TABLE LAYOUT</div>
+      <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="dir" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+            <polygon points="0 0, 7 2.5, 0 5" fill="rgba(255,255,255,0.35)"/>
+          </marker>
+        </defs>
+
+        <!-- Table -->
+        <ellipse cx="240" cy="160" rx="175" ry="115" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+
+        <!-- Small direction hint -->
+        <path d="M 100 232 C 82 215, 72 195, 70 170" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" marker-end="url(#dir)"/>
+
+        <!-- SPEAKS FIRST — #1 (bottom left) -->
+        <circle cx="118" cy="248" r="26" fill="#1F2B42" stroke="#6BC4A0" stroke-width="2.5"/>
+        <text x="118" y="254" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="#6BC4A0">1</text>
+        <text x="118" y="290" text-anchor="middle" font-family="Space Mono" font-size="8" font-weight="700" fill="#6BC4A0" letter-spacing="1">SPEAKS FIRST</text>
+
+        <!-- Guest — #2 (left lower) -->
+        <circle cx="72" cy="198" r="26" fill="#1F2B42" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>
+        <text x="72" y="204" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="rgba(255,255,255,0.55)">2</text>
+
+        <!-- Guest — #3 (left upper) -->
+        <circle cx="72" cy="128" r="26" fill="#1F2B42" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>
+        <text x="72" y="134" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="rgba(255,255,255,0.55)">3</text>
+
+        <!-- CO-HOST — #4 (top left) -->
+        <circle cx="130" cy="62" r="26" fill="#1F2B42" stroke="#8BB4E8" stroke-width="2.5"/>
+        <text x="130" y="68" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="#8BB4E8">4</text>
+        <text x="130" y="30" text-anchor="middle" font-family="Space Mono" font-size="8" font-weight="700" fill="#8BB4E8" letter-spacing="1">CO-HOST</text>
+
+        <!-- YOU — #5 (top center) -->
+        <circle cx="240" cy="45" r="26" fill="#1F2B42" stroke="#8BB4E8" stroke-width="2.5"/>
+        <text x="240" y="51" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="#8BB4E8">5</text>
+        <text x="240" y="14" text-anchor="middle" font-family="Space Mono" font-size="9" font-weight="700" fill="#8BB4E8" letter-spacing="1.5">YOU</text>
+
+        <!-- NEXT HOST — #6 (top right) -->
+        <circle cx="350" cy="62" r="26" fill="#1F2B42" stroke="#8BB4E8" stroke-width="2.5"/>
+        <text x="350" y="68" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="#8BB4E8">6</text>
+        <text x="350" y="30" text-anchor="middle" font-family="Space Mono" font-size="8" font-weight="700" fill="#8BB4E8" letter-spacing="1">NEXT HOST</text>
+
+        <!-- Guest — #7 (right upper) -->
+        <circle cx="408" cy="128" r="26" fill="#1F2B42" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>
+        <text x="408" y="134" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="rgba(255,255,255,0.55)">7</text>
+
+        <!-- Guest — #8 (right lower) -->
+        <circle cx="408" cy="198" r="26" fill="#1F2B42" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>
+        <text x="408" y="204" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="rgba(255,255,255,0.55)">8</text>
+
+        <!-- COMMUNITY LEADER — #9 (bottom right) -->
+        <circle cx="355" cy="252" r="26" fill="#1F2B42" stroke="#C4A8F0" stroke-width="2.5"/>
+        <text x="355" y="258" text-anchor="middle" font-family="Space Mono" font-size="13" font-weight="700" fill="#C4A8F0">9</text>
+        <text x="355" y="290" text-anchor="middle" font-family="Space Mono" font-size="8" font-weight="700" fill="#C4A8F0" letter-spacing="1">COMMUNITY</text>
+        <text x="355" y="301" text-anchor="middle" font-family="Space Mono" font-size="8" font-weight="700" fill="#C4A8F0" letter-spacing="1">LEADER</text>
+
+        <!-- SPEAKS LAST — #10 (bottom center) -->
+        <circle cx="240" cy="272" r="26" fill="#1F2B42" stroke="#D95550" stroke-width="2.5"/>
+        <text x="240" y="278" text-anchor="middle" font-family="Space Mono" font-size="12" font-weight="700" fill="#D95550">10</text>
+        <text x="240" y="312" text-anchor="middle" font-family="Space Mono" font-size="8" font-weight="700" fill="#D95550" letter-spacing="1">SPEAKS LAST</text>
+      </svg>
+
+      <div class="blueprint-callouts">
+        <div class="callout" style="border-left-color: #8BB4E8;">
+          <h5 style="color: #8BB4E8;">Co-host</h5>
+          <p>A friend who plans the evening with you. You share the responsibility, help each other manage the anxiety, and encourage each other along the way. The dinner is more likely to happen — and go well — if you do it together.</p>
+        </div>
+        <div class="callout" style="border-left-color: #C4A8F0;">
+          <h5 style="color: #C4A8F0;">Community leader</h5>
+          <p>Someone with profile or reputation in your community — an activist, teacher, journalist, faith leader, social worker. Someone who does the work every day. They help the room understand what's happening on the ground and they help decide where the money goes — making sure resources reach the organizations, activists, and families who need them most.</p>
+        </div>
+        <div class="callout" style="border-left-color: #6BC4A0;">
+          <h5 style="color: #6BC4A0;">Friend who speaks first</h5>
+          <p>Answers the opening question first and sets the tone for the entire table. Everyone takes their cue from this person — if they go deep and personal, the room does too.</p>
+        </div>
+        <div class="callout" style="border-left-color: #D95550;">
+          <h5 style="color: #D95550;">Friend who speaks last</h5>
+          <p>Answers the opening question last. Their job is to draw connections — call back to what others said, show the patterns, start building a sense of shared experience around the table.</p>
+        </div>
+        <div class="callout" style="border-left-color: #8BB4E8;">
+          <h5 style="color: #8BB4E8;">Next host</h5>
+          <p>Someone watching how this works so they can go run one themselves. Sits beside you. Creates more opportunities down the line.</p>
+        </div>
+        <div class="callout" style="border-left-color: rgba(255,255,255,0.5);">
+          <h5 style="color: rgba(255,255,255,0.7);">Everyone else</h5>
+          <p>Your guests — the people you invited using the thirds rule. They fill the remaining seats.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 06 SEND THE INVITE (off-white) ===== -->
+<div class="sec t-off-white" id="invite">
+  <div class="sec-inner">
+    <div class="step-num">Step 06</div>
+    <h2>Send the <em>invite</em></h2>
+    <p>The invitation includes the opening question so people arrive ready to share. It also includes one or two articles, posts, or threads you've been reading — pieces that speak to why this dinner exists. Pick the ones that move you. Those are the right ones.</p>
+
+    <div class="email-block">
+      <div class="email-header">Subject: Dinner on <span class="ph">[date]</span> — I'd be grateful if you could join us</div>
+      <div class="email-body">
+        <p>Hey <span class="ph">[name]</span>,</p>
+        <p>I'm putting together a dinner with a couple of friends on <span class="ph">[date]</span> at <span class="ph">[location]</span>. About 10 people — folks who are already part of the work happening in our community and people we think should be.</p>
+        <p>Things are moving fast right now and the people on the ground holding it together need resources to keep going. We want to bring together a table of people who care about this place and figure out how to put real support behind the work — starting with this dinner.</p>
+        <p><span class="ph">[Name]</span> from <span class="ph">[organization or description]</span> will be there and can speak to what's happening in our community.</p>
+        <p>To start the evening, we're going to go around the table and have each of us answer this question:</p>
+        <p style="font-family: 'Libre Baskerville', serif; font-style: italic; padding: 4px 0;"><span class="ph">[Your chosen opening question]</span></p>
+        <p>Two minutes each. Come with something honest.</p>
+        <p>Here are a couple of things I've been reading that get at why this feels so urgent right now:</p>
+        <p><span class="ph">[Link]</span><br><span class="ph">[Link]</span></p>
+        <p>Dinner is at <span class="ph">[time]</span>. I'd be really grateful if you could join us. Just reply and let me know if you have any dietary needs.</p>
+        <p><span class="ph">[Your name]</span></p>
+      </div>
+    </div>
+
+    <button class="copy-btn" onclick="copyEmail()">Copy email text</button>
+  </div>
+</div>
+
+<!-- ===== 07 BRIEF YOUR PEOPLE (coral) ===== -->
+<div class="sec t-purple" id="brief">
+  <div class="sec-inner">
+    <div class="step-num">Step 07</div>
+    <h2>Brief your <em>key roles</em></h2>
+    <p>One week before the dinner, have a short conversation with each of the people in key roles at the table. Help them understand how they can help make the evening a success.</p>
+
+    <div style="margin-top: 20px;">
+      <div class="icon-row">
+        <div class="icon-circle">🎤</div>
+        <div>
+          <h4>The friend who speaks first</h4>
+          <p>Review the question with them. Let them know their job is to go first, and that everyone at the table is going to take their cue from them. Help them practice their answer. A great answer is deeply personal and reflective — it has a little vulnerability and uncertainty in it, but at its core is their personal story of why they're in this fight, why this moment matters to them. Their fear, their anger, their hope — whatever is real. Not their job. Not their accomplishments. Not a performance. Help them find the right emotional tone so the room opens up the way it needs to.</p>
+        </div>
+      </div>
+      <div class="icon-row">
+        <div class="icon-circle">🧵</div>
+        <div>
+          <h4>The friend who speaks last</h4>
+          <p>Review the question with them. Let them know they're answering last, and their job is bigger than just sharing their own story. They should listen carefully to everyone else and then, when it's their turn, draw the connections — here's what I'm hearing, here's what we share, here's why we're all in this room. They turn a round of individual stories into something collective. Help them understand this is the bridge into the rest of the evening.</p>
+        </div>
+      </div>
+      <div class="icon-row">
+        <div class="icon-circle">⚡</div>
+        <div>
+          <h4>The community leader</h4>
+          <p>They answer the opening question like everyone else. Let them know that their most important moment comes during the open conversation — when the room is talking about what's happening and they can speak from inside the work. Remind them they're there on behalf of the community, not just their own organization. They're also the person who will help decide where the money goes — making sure it reaches the people and work that need it most.</p>
+        </div>
+      </div>
+      <div class="icon-row">
+        <div class="icon-circle">🔄</div>
+        <div>
+          <h4>The next host</h4>
+          <p>Let them know they're there to learn. They sit beside you, watch the mechanics, and ask questions afterward. They're hosting the next one.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 08 RUN THE EVENING (navy) ===== -->
+<div class="sec t-navy" id="run">
+  <div class="sec-inner">
+    <div class="step-num">Step 08</div>
+    <h2>Run the <em>evening</em></h2>
+    <p style="font-size: 19px;">About 2+ hours. Pull this up on your phone to keep you on track.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">20 mins</div>
+        <div class="tl-content">
+          <h4>Greetings and mingling</h4>
+          <p>People arrive and mingle — standing around the living room, chatting in the kitchen, meeting each other as everyone shows up. This is casual. Wait for everyone to arrive before calling people to the table.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">5 mins</div>
+        <div class="tl-content">
+          <h4>Call everyone to the table</h4>
+          <p>Once everyone is here, invite them to sit. Thank everyone for coming — be sure to express how much it means to you that they chose to be here tonight. Then talk about your personal connection to this moment — what's at stake, why you wanted to host this dinner, the themes in the articles you sent. Three minutes, no more. Then introduce the timing glass. Then ask the opening question and invite your first friend to go first.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-label">SAY THIS</div>
+      <p>Thank you all for being here tonight. I'm grateful that you chose to spend your evening with us. We all know what's happening right now — we've been feeling it in the news, in our neighborhoods, in the conversations we have with each other. The reason we wanted to bring this group together is to keep building on the work we're already part of — to strengthen what we're doing, to see what else we can do together, and to help bring more resources to the work.</p>
+      <p>In a moment I'm going to start us off with the question I included in the invitation. I would love for each of you to share a roughly two-minute, personal reflection in response.</p>
+      <p>But first! I'm going to be using this timing glass tonight to keep us on track. When you hear it, it's just a friendly nudge that it's been about two minutes — just so we can keep the conversation going and make sure we hear from everyone.</p>
+      <p>OK. Here's the question: <em>[your question]</em></p>
+      <p>[Name], would you start us off?</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">30 mins</div>
+        <div class="tl-content">
+          <h4>The opening question</h4>
+          <p>This isn't an introduction round — it's a huge part of the evening. You want people telling real stories, not rushing through pleasantries. When you ask the question, channel the emotional energy you want the table to have. Your first friend answers, then you go around the table one at a time. Use the timing glass when people go long. Your last friend closes the round — drawing the threads together, showing what connects the stories into something shared.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">5 mins</div>
+        <div class="tl-content">
+          <h4>Start the discussion</h4>
+          <p>After your last friend finishes, take a moment to acknowledge what just happened. You've just gone around the table and heard from everyone — there are themes, connections, shared feeling in the room. Name some of what you heard. Then start the discussion by asking the community leader to share some of what they're seeing right now — the challenges, the needs, the opportunities for the community. From there, let the conversation run.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-label">SAY THIS</div>
+      <p>That was powerful. You can hear it in the stories — we're all here for a reason. [Name a specific theme or connection you heard.] I want to keep that energy going. [Community leader name], can you talk a little about what you're seeing right now — what's happening on the ground and where support could make the biggest difference?</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">45 mins</div>
+        <div class="tl-content">
+          <h4>The conversation</h4>
+          <p>The table opens up. The community leader speaks from inside the work. When it's working, people are asking questions, building on each other, getting concrete about what's needed. If the conversation drifts into news commentary or big-picture speculation, pull it back: "What does that look like here, specifically?" If it stalls, ask the community leader: "What becomes possible if we get the resources together?" End the conversation while there's still energy — leave people wanting more.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">5 mins</div>
+        <div class="tl-content">
+          <h4>The ask</h4>
+          <p>When the conversation has reached a natural peak and the energy is high, bring it back to yourself. This is the ask.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-label">SAY THIS</div>
+      <p>This has been amazing. It means a lot to me that you were all willing to come. These kinds of conversations can be transformative for a community and they're deeply important in this larger moment. I'm really grateful.</p>
+      <p>One of the reasons we're gathered here is to figure out how to bring more resources to the work. I'd like each of you to consider making a financial commitment — in addition to your time, your energy, and everything else you're already bringing. The money will go to [community leader name], who will help us put it to work — getting it to the organizations, the activists, and the families who need it most.</p>
+      <p>I'm not going to ask anyone to say anything right now. We're going to let things break into dessert. This will end the formal conversation. Feel free to chat with each other, get up, move around — talk about whatever you want.</p>
+      <p>But as we're leaving this evening, or over the next couple of days, I'm going to reach out to each of you directly and see what's possible.</p>
+      <p>In terms of size — think about the kind of birthday gift you'd give someone you love, on a birthday you wanted them to never forget. Whatever that number is for you is the right amount to consider.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">Until done</div>
+        <div class="tl-content">
+          <h4>Dessert</h4>
+          <p>Bring out dessert. The table breaks into side conversations. People are sitting with the ask. Let the evening breathe. This is where the real processing happens — in pairs, in quiet conversations, in the spaces between. People linger, talk, move around. Some will come to you and tell you they're in. Some will say goodbye with a hug and follow up in a day or two. Thank every person individually as they leave.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 09 FOLLOW UP (green) ===== -->
+<div class="sec t-blue" id="followup">
+  <div class="sec-inner">
+    <div class="step-num">Step 09</div>
+    <h2>Follow up with <em>everyone</em></h2>
+    <p>Most of the money comes after the dinner, not during it. The evening opens the door.</p>
+
+    <div style="margin-top: 24px;">
+      <div class="icon-row">
+        <div class="icon-circle">💬</div>
+        <div>
+          <h4>As people leave</h4>
+          <p>Say goodbye one on one. Some people will tell you they're in and ask how to follow through. Some will say they need to think about it. Both are right. Thank every person individually for coming.</p>
+        </div>
+      </div>
+
+      <div class="icon-row">
+        <div class="icon-circle">📧</div>
+        <div>
+          <h4>Within 48 hours</h4>
+          <p>Email everyone who was at the table. Thank them. For people who committed, tell them how to follow through — where to send the money, who it goes to, what it supports. For people who didn't commit, the email is your second ask: "If you'd like to be part of this, here's how." Keep it simple. Give them a way to act immediately.</p>
+          <p style="margin-top: 8px;">Follow up individually with anyone who said "I need to think about it." A short conversation, not a pitch — just checking in, answering questions, and giving them space to decide.</p>
+        </div>
+      </div>
+
+      <div class="icon-row">
+        <div class="icon-circle">🔄</div>
+        <div>
+          <h4>Within a week</h4>
+          <p>Sit down with your next host while the evening is still fresh. Help them start planning their own dinner — different community leader, their own guests, their own table.</p>
+          <p style="margin-top: 8px;">Debrief with your co-host. What worked? What would you change? What surprised you? This makes the next dinner better — whether it's yours or someone else's.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHECKLIST (white) ===== -->
+<div class="sec t-white" id="checklist">
+  <div class="sec-inner">
+    <div class="step-num">Implementation checklist</div>
+    <h2>Everything in <em>order</em></h2>
+
+    <div class="checklist">
+      <div class="cl-group">
+        <h4>2–3 weeks before</h4>
+        <div class="cl-item"><div class="cl-box"></div><p>Decide on your co-host — who's doing this with you</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Choose the community leader and confirm they can come</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Identify your next host</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Pick your opening question</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Build guest list using the thirds rule — aim for 10 people total</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Book or prepare the space — quiet, one table, no music</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Choose 1–2 articles, posts, or threads to include as pre-reads</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Send the invitation email with the question, pre-reads, and community leader's name</p></div>
+      </div>
+
+      <div class="cl-group">
+        <h4>1 week before</h4>
+        <div class="cl-item"><div class="cl-box"></div><p>Brief the friend who speaks first — review the question, help them practice, set the emotional tone</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Brief the friend who speaks last — review the question, their job is to listen and draw threads</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Brief the community leader — be honest and specific, speak from inside the work, represent the community not just their org, understand they help direct where money goes</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Tell the next host they're there to learn — sit beside you, watch the mechanics, ask questions after</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Plan the meal — family style, everything out at once, no courses</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Plan dessert — ready to serve separately after you make the ask</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Confirm final headcount</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Sketch the seating chart using the table layout — assign all key seats</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Practice your opening and the ask out loud, once, with your co-host</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Decide on the follow-through mechanism — Venmo, a link, an address, a fund — whatever makes it easy for people to act</p></div>
+      </div>
+
+      <div class="cl-group">
+        <h4>Day of</h4>
+        <div class="cl-item"><div class="cl-box"></div><p>Set up one table — everyone facing each other</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Place name cards or markers at the key seats</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Food ready to go on the table when people sit, or arriving all at once</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>No music — double check</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Have the timing glass and a spoon ready</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Dessert staged out of sight</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Phone charged — pull up the Step 08 timeline</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Confirm you know the follow-through mechanism and can explain it clearly</p></div>
+      </div>
+
+      <div class="cl-group">
+        <h4>After</h4>
+        <div class="cl-item"><div class="cl-box"></div><p>Thank each person individually as they leave</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Within 48 hours: send thank-you email with follow-through details and second ask</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Within 48 hours: follow up individually with anyone who said they'd think about it</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Within a week: sit down with the next host and help them start planning</p></div>
+        <div class="cl-item"><div class="cl-box"></div><p>Within a week: debrief with your co-host — what worked, what to change</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <p>Built from professional fundraising methodology. If you run one, tell someone about it.</p>
+</div>
+
+<script>
+function copyEmail() {
+  const emailText = `Hey [name],
+
+I'm putting together a dinner with a couple of friends on [date] at [location]. About 10 people — folks who are already part of the work happening in our community and people we think should be.
+
+Things are moving fast right now and the people on the ground holding it together need resources to keep going. We want to bring together a table of people who care about this place and figure out how to put real support behind the work — starting with this dinner.
+
+[Name] from [organization or description] will be there and can speak to what's happening in our community.
+
+To start the evening, we're going to go around the table and have each of us answer this question:
+
+[Your chosen opening question]
+
+Two minutes each. Come with something honest.
+
+Here are a couple of things I've been reading that get at why this feels so urgent right now:
+
+[Link]
+[Link]
+
+Dinner is at [time]. I'd be really grateful if you could join us. Just reply and let me know if you have any dietary needs.
+
+[Your name]`;
+
+  navigator.clipboard.writeText(emailText).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy email text';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
 </body>
 </html>
